@@ -6,7 +6,9 @@
         <artifactId>common-base-parent</artifactId>
         <version>1.0-0-sp3.2-SNAPSHOT</version>
     </parent>
+
     <artifactId>common-base</artifactId>
+    <version>1.0.0-sp3.2-SNAPSHOT</version>
 
     <developers>
         <developer>
@@ -19,6 +21,7 @@
     </developers>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
