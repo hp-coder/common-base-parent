@@ -10,22 +10,22 @@ import java.util.function.Supplier;
  * @author hp
  */
 @Slf4j
-public abstract class AbstractOrmCreator<AGGREGATION, REPOSITORY extends OrmRepository<AGGREGATION, ID>, ID extends Serializable>
-        extends AbstractOrmOperator<AGGREGATION, REPOSITORY, ID>
-        implements Loader<AGGREGATION> {
+public abstract class AbstractOrmCreator<AGGREGATE_ROOT, REPOSITORY extends OrmRepository<AGGREGATE_ROOT, ID>, ID extends Serializable>
+        extends AbstractOrmOperator<AGGREGATE_ROOT, REPOSITORY, ID>
+        implements Loader<AGGREGATE_ROOT> {
 
     public AbstractOrmCreator(REPOSITORY repository) {
         super(repository);
     }
 
     @Override
-    public Modifier<AGGREGATION> aggregation(Supplier<AGGREGATION> supplier) {
+    public Modifier<AGGREGATE_ROOT> aggregation(Supplier<AGGREGATE_ROOT> supplier) {
         this.aggregation = supplier.get();
         return this;
     }
 
     @Override
-    protected Supplier<AGGREGATION> doExecute() {
+    protected Supplier<AGGREGATE_ROOT> doExecute() {
         return () -> {
             this.repository.save(this.aggregation);
             return this.aggregation;

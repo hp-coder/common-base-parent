@@ -7,7 +7,7 @@ import java.util.function.Consumer;
  * @author hp
  * @date 2022/10/18
  */
-public interface Modifier<AGGREGATION> extends Hooks<AGGREGATION>, Executor<AGGREGATION>, OrmOperation {
+public interface Modifier<AGGREGATE_ROOT> extends Hooks<AGGREGATE_ROOT>, Executor<AGGREGATE_ROOT>, OrmOperation {
 
-    Modifier<AGGREGATION> modify(Consumer<AGGREGATION> consumer);
+    Modifier<AGGREGATE_ROOT> modify(Consumer<AGGREGATE_ROOT> consumer);
 }

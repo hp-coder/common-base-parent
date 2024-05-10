@@ -6,8 +6,8 @@ import java.util.Optional;
  * @author hp
  * @date 2022/10/18
  */
-public interface Executor<AGGREGATION> extends OrmOperation {
+public interface Executor<AGGREGATE_ROOT> extends OrmOperation {
 
-    Optional<AGGREGATION> execute();
+    Optional<AGGREGATE_ROOT> execute();
 
 }

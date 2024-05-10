@@ -14,28 +14,28 @@ import java.util.function.Supplier;
  * @author hp
  */
 @Slf4j
-public abstract class AbstractOrmUpdater<AGGREGATION, REPOSITORY extends OrmRepository<AGGREGATION, ID>, ID extends Serializable>
-        extends AbstractOrmOperator<AGGREGATION, REPOSITORY, ID>
-        implements UpdaterLoader<AGGREGATION, ID> {
+public abstract class AbstractOrmUpdater<AGGREGATE_ROOT, REPOSITORY extends OrmRepository<AGGREGATE_ROOT, ID>, ID extends Serializable>
+        extends AbstractOrmOperator<AGGREGATE_ROOT, REPOSITORY, ID>
+        implements UpdaterLoader<AGGREGATE_ROOT, ID> {
 
     public AbstractOrmUpdater(REPOSITORY repository) {
         super(repository);
     }
 
     @Override
-    public Modifier<AGGREGATION> aggregation(Supplier<AGGREGATION> supplier) {
+    public Modifier<AGGREGATE_ROOT> aggregation(Supplier<AGGREGATE_ROOT> supplier) {
         this.aggregation = Optional.ofNullable(Objects.requireNonNull(supplier).get()).orElseThrow(() -> new BusinessException(CodeEnum.NotFindError));
         return this;
     }
 
     @Override
-    public Modifier<AGGREGATION> aggregationById(ID id) {
+    public Modifier<AGGREGATE_ROOT> aggregationById(ID id) {
         this.aggregation = repository.findById(id).orElseThrow(() -> new BusinessException(CodeEnum.NotFindError));
         return this;
     }
 
     @Override
-    protected Supplier<AGGREGATION> doExecute() {
+    protected Supplier<AGGREGATE_ROOT> doExecute() {
         return () -> {
             this.repository.updateById(this.aggregation);
             return this.aggregation;

@@ -6,8 +6,8 @@ import java.io.Serializable;
 /**
  * @author hp
  */
-public interface UpdaterLoader<AGGREGATION, ID extends Serializable> extends Loader<AGGREGATION> {
+public interface UpdaterLoader<AGGREGATE_ROOT, ID extends Serializable> extends Loader<AGGREGATE_ROOT> {
 
-    Modifier<AGGREGATION> aggregationById(ID id);
+    Modifier<AGGREGATE_ROOT> aggregationById(ID id);
 
 }

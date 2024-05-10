@@ -5,10 +5,10 @@ import java.util.function.Consumer;
 /**
  * @author hp
  */
-public interface Hooks<AGGREGATION> extends Executor<AGGREGATION>{
+public interface Hooks<AGGREGATE_ROOT> extends Executor<AGGREGATE_ROOT>{
 
-    Hooks<AGGREGATION> onSuccess(Consumer<AGGREGATION> consumer);
+    Hooks<AGGREGATE_ROOT> onSuccess(Consumer<AGGREGATE_ROOT> consumer);
 
-    Hooks<AGGREGATION> onFailure(Consumer<? super Throwable> consumer);
+    Hooks<AGGREGATE_ROOT> onFailure(Consumer<? super Throwable> consumer);
 
 }

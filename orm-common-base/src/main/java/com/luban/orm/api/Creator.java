@@ -5,8 +5,8 @@ import java.util.function.Supplier;
 /**
  * @author hp
  */
-public interface Creator<AGGREGATION> extends OrmOperation {
+public interface Creator<AGGREGATE_ROOT> extends OrmOperation {
 
-    Modifier<AGGREGATION> create(Supplier<AGGREGATION> supplier);
+    Modifier<AGGREGATE_ROOT> create(Supplier<AGGREGATE_ROOT> supplier);
 
 }

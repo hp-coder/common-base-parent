@@ -3,7 +3,7 @@ package com.luban.orm.api;
 /**
  * @author hp
  */
-public interface EventPublisher<AGGREGATION> {
+public interface EventPublisher<AGGREGATE_ROOT> {
 
 
 }

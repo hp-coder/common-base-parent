@@ -5,8 +5,8 @@ import java.util.function.Supplier;
 /**
  * @author hp
  */
-public interface Loader<AGGREGATION> extends OrmOperation {
+public interface Loader<AGGREGATE_ROOT> extends OrmOperation {
 
-    Modifier<AGGREGATION> aggregation(Supplier<AGGREGATION> supplier);
+    Modifier<AGGREGATE_ROOT> aggregation(Supplier<AGGREGATE_ROOT> supplier);
 
 }

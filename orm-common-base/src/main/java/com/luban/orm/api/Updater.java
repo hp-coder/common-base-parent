@@ -4,9 +4,8 @@ import java.util.function.Consumer;
 
 /**
  * @author hp
- * @date 2022/10/18
  */
-public interface Updater<AGGREGATION> extends OrmOperation{
+public interface Updater<AGGREGATE_ROOT> extends OrmOperation{
 
-    Executor<AGGREGATION> update(Consumer<AGGREGATION> consumer);
+    Executor<AGGREGATE_ROOT> update(Consumer<AGGREGATE_ROOT> consumer);
 }

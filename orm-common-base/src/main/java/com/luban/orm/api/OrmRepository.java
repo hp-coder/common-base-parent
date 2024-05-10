@@ -6,11 +6,11 @@ import java.util.Optional;
 /**
  * @author hp
  */
-public interface OrmRepository<AGGREGATION, ID extends Serializable> {
+public interface OrmRepository<AGGREGATE_ROOT, ID extends Serializable> {
 
-    void save(AGGREGATION aggregation);
+    void save(AGGREGATE_ROOT aggregation);
 
-    void updateById(AGGREGATION aggregation);
+    void updateById(AGGREGATE_ROOT aggregation);
 
-    Optional<AGGREGATION> findById(ID id);
+    Optional<AGGREGATE_ROOT> findById(ID id);
 }
