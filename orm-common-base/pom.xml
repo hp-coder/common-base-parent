@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.luban</groupId>
         <artifactId>common-base-parent</artifactId>
-        <version>1.0-0-sp3.2-SNAPSHOT</version>
+        <version>1.0.0-sp3.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>orm-common-base</artifactId>
