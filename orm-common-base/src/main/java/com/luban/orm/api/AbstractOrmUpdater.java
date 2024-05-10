@@ -30,7 +30,7 @@ public abstract class AbstractOrmUpdater<AGGREGATION, REPOSITORY extends OrmRepo
 
     @Override
     public Modifier<AGGREGATION> aggregationById(ID id) {
-        this.aggregation = Optional.ofNullable(repository.findById(id)).orElseThrow(() -> new BusinessException(CodeEnum.NotFindError));
+        this.aggregation = repository.findById(id).orElseThrow(() -> new BusinessException(CodeEnum.NotFindError));
         return this;
     }
 
