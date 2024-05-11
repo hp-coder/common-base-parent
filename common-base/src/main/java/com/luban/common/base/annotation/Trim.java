@@ -8,12 +8,12 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
+ * Based on {@code cn.hutool.core.util.StrUtil.trim(value, mode)}
+ *
  * @author hp
+ * @see com.luban.common.base.http.servlet.TrimRequestResponseBodyMethodProcessorDecorator
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE, ElementType.FIELD})
@@ -31,15 +31,5 @@ public @interface Trim {
         ;
         private final Integer code;
         private final String name;
-
-        public static Optional<TrimMode> of(Integer code) {
-            return Optional.ofNullable(BaseEnum.parseByCode(TrimMode.class, code));
-        }
-
-        public static Optional<TrimMode> ofName(String name) {
-            return Arrays.stream(values())
-                    .filter(i -> Objects.equals(name, i.getName()))
-                    .findFirst();
-        }
     }
 }
