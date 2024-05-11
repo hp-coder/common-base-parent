@@ -46,11 +46,11 @@ import java.lang.annotation.*;
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 public @interface Trim {
 
-    TrimMode value() default TrimMode.ALL;
+    Mode value() default Mode.ALL;
 
     @Getter
     @AllArgsConstructor
-    enum TrimMode implements BaseEnum<TrimMode, Integer> {
+    enum Mode implements BaseEnum<Mode, Integer> {
         /***/
         END(1, "trimEnd"), ALL(0, "trimAll"), START(-1, "trimStart"),
         ;
