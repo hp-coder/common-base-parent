@@ -12,11 +12,18 @@ import java.lang.annotation.Target;
 /**
  * Based on {@code cn.hutool.core.util.StrUtil.trim(value, mode)}
  *
+ * Annotation discovering priority: Method > Parameter > Type > Field
+ * Annotated type priority: Field > Type > Parameter > Method
+ *
  * @author hp
  * @see com.luban.common.base.http.servlet.TrimRequestResponseBodyMethodProcessorDecorator
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE, ElementType.FIELD})
+@Target({ElementType.METHOD,
+                ElementType.PARAMETER,
+                ElementType.TYPE,
+                ElementType.FIELD
+        })
 public @interface Trim {
 
     TrimMode value() default TrimMode.TRIM_ALL;
