@@ -8,7 +8,6 @@ import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,11 +59,11 @@ public abstract class AbstractOrmOperator<AGGREGATE_ROOT, REPOSITORY extends Orm
     }
 
     protected List<Consumer<AGGREGATE_ROOT>> getOnSuccessConsumers() {
-        return CollUtil.defaultIfEmpty(this.onSuccessConsumers, Collections.singletonList(this.onSuccessDefault));
+        return CollUtil.defaultIfEmpty(this.onSuccessConsumers, Lists.newArrayList(this.onSuccessDefault));
     }
 
     public List<Consumer<? super Throwable>> getOnFailureConsumers() {
-        return CollUtil.defaultIfEmpty(this.onFailureConsumers, Collections.singletonList(this.onFailureDefault));
+        return CollUtil.defaultIfEmpty(this.onFailureConsumers,Lists.newArrayList(this.onFailureDefault));
     }
 
     protected abstract Supplier<AGGREGATE_ROOT> doExecute();
