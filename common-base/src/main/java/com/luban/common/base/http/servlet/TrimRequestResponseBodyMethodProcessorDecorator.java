@@ -3,6 +3,7 @@ package com.luban.common.base.http.servlet;
 import cn.hutool.core.util.StrUtil;
 import com.luban.common.base.annotation.Trim;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.util.ReflectionUtils;
@@ -66,17 +67,13 @@ public class TrimRequestResponseBodyMethodProcessorDecorator implements HandlerM
             return parameter.isOptional() ? Optional.empty() : null;
         }
 
-        Trim trim = null;
+        // 开关
         parameter = parameter.nestedIfOptional();
-        final boolean trimOnMethod = parameter.hasMethodAnnotation(Trim.class);
-        trim = trimOnMethod ? parameter.getMethodAnnotation(Trim.class) : trim;
+        if (!parameter.hasParameterAnnotation(Trim.class)) {
+            return o;
+        }
 
-        final boolean trimOnParameter = parameter.hasParameterAnnotation(Trim.class);
-        trim = trimOnParameter ? parameter.getParameterAnnotation(Trim.class) : trim;
-
-        final boolean trimOnClass = parameter.getParameterType().isAnnotationPresent(Trim.class);
-        trim = trimOnClass ? parameter.getParameterType().getAnnotation(Trim.class) : trim;
-
+        // 拿到真实数据对象, 因为原生支持Optional封装
         Object object;
         if (parameter.isOptional()) {
             final Optional<?> optional = (Optional<?>) o;
@@ -86,21 +83,50 @@ public class TrimRequestResponseBodyMethodProcessorDecorator implements HandlerM
             object = o;
         }
 
-        Trim finalTrim = trim;
-        ReflectionUtils.doWithFields(
-                ((Class) parameter.getNestedGenericParameterType()),
-                field -> {
-                    final boolean trimOnField = AnnotatedElementUtils.hasAnnotation(field, Trim.class);
-                    final Trim fieldTrim = trimOnField ? field.getAnnotation(Trim.class) : finalTrim;
+        // 范型情况, 找到真实的对象
+        Class<?> targetClass;
+        if (parameter.getNestedGenericParameterType() instanceof Class<?> clazz) {
+            targetClass = clazz;
+        } else {
+            ResolvableType resolvableType = ResolvableType.forMethodParameter(parameter);
+            targetClass = resolvableType.resolve();
+        }
 
-                    ReflectionUtils.makeAccessible(field);
-                    final String value = (String) field.get(object);
-                    final String trimmedVal = StrUtil.trim(value, Optional.ofNullable(fieldTrim).map(i -> i.value().getCode()).orElseThrow());
-                    field.set(object, trimmedVal);
-                },
-                field -> field.getType() == String.class && (trimOnMethod || trimOnParameter || trimOnClass || AnnotatedElementUtils.hasAnnotation(field, Trim.class))
-        );
+        if (Objects.isNull(targetClass)) {
+            return o;
+        }
+
+        trimObject(targetClass, object);
 
         return o;
+    }
+
+    private static void trimObject(Class<?> targetClass, Object object) {
+        if (Objects.isNull(targetClass) || targetClass == Object.class) {
+            return;
+        }
+
+        ReflectionUtils.doWithFields(
+                targetClass,
+                field -> {
+                    final Trim fieldTrim = field.getAnnotation(Trim.class);
+                    assert fieldTrim != null;
+
+                    if (field.getType() == String.class) {
+                        ReflectionUtils.makeAccessible(field);
+                        final String stringVal = (String) field.get(object);
+                        final String trimmedVal = StrUtil.trim(stringVal, fieldTrim.value().getCode());
+                        field.set(object, trimmedVal);
+
+                    } else {
+                        ReflectionUtils.makeAccessible(field);
+                        final Object value = field.get(object);
+                        // 从实际对象取, 避免范型问题
+                        final Class<?> fieldClass = value.getClass();
+                        trimObject(fieldClass, value);
+                    }
+                },
+                field -> (AnnotatedElementUtils.hasAnnotation(field, Trim.class))
+        );
     }
 }

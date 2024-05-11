@@ -1,6 +1,7 @@
 package com.luban.common.base.model;
 
 import com.google.common.base.Preconditions;
+import com.luban.common.base.annotation.Trim;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class PageRequestWrapper<T extends Request> {
 
     private Integer page = 1;
     private Integer size = 10;
+    @Trim
     private T queryParams;
     private List<OrderColumn> sorts;
 
