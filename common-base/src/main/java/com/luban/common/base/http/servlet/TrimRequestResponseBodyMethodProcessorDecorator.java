@@ -18,6 +18,8 @@ import java.util.Optional;
 
 /**
  * Replace RequestResponseBodyMethodProcessor or add this decorator before it.
+ * <p>
+ * Consider this example of configuring the Decorator
  *
  * @author hp
  * @see RequestMappingHandlerAdapter
@@ -26,7 +28,7 @@ public class TrimRequestResponseBodyMethodProcessorDecorator implements HandlerM
 
     private final RequestResponseBodyMethodProcessor processor;
 
-    public TrimRequestResponseBodyMethodProcessorDecorator(RequestResponseBodyMethodProcessor processor) {
+    public TrimRequestResponseBodyMethodProcessorDecorator(@NonNull RequestResponseBodyMethodProcessor processor) {
         this.processor = processor;
     }
 
