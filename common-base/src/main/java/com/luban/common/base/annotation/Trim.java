@@ -11,14 +11,14 @@ import java.lang.annotation.*;
  * <p>
  * Usage:
  * <p>
- * Add this annotation on parameters that were also annotated with {@code @RequestBody} to activate the processing,
- * and the fields in the parameters will be checked recursively.
+ * In order to activate the processing, add the annotation on parameters
+ * that were also annotated with {@code @RequestBody}. This will trigger
+ * recursive checking of the fields in the parameters.
  * <p>
- * To trim fields, annotated on the specific field.
+ * To trim specific fields, annotate on that field.
  * <p>
- * If the field is not a String type, the fields to be trimmed in the object field also has to be annotated
- * with {@code @Trim}.
- *
+ * If the field is not a String type, the fields to be trimmed in the
+ * object field also have to be annotated with {@code @Trim}.
  *
  * <pre>
  * public MODIFIER method({@code @RequestBody @Trim }ParamClass){}
