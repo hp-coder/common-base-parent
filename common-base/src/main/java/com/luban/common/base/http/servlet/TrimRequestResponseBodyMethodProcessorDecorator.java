@@ -21,6 +21,28 @@ import java.util.Optional;
  * <p>
  * Consider this example of configuring the Decorator
  *
+ * <pre>
+ *
+ * {@code @RequiredArgsConstructor}
+ * {@code @Configuration}
+ * public class HandlerMethodArgumentResolverAutoConfiguration {
+ *
+ *     private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
+ *     private final List<HttpMessageConverter<?>> converters;
+ *
+ *     {@code @PostConstruct}
+ *     public void setRequestExcelArgumentResolver() {
+ *         List<HandlerMethodArgumentResolver> argumentResolvers = this.requestMappingHandlerAdapter.getArgumentResolvers();
+ *         List<HandlerMethodArgumentResolver> resolverList = new ArrayList<>();
+ *         resolverList.add(new TrimRequestResponseBodyMethodProcessorDecorator(new RequestResponseBodyMethodProcessor(converters)));
+ *         assert argumentResolvers != null;
+ *         resolverList.addAll(argumentResolvers);
+ *         this.requestMappingHandlerAdapter.setArgumentResolvers(resolverList);
+ *     }
+ * }
+ *
+ * </pre>
+ *
  * @author hp
  * @see RequestMappingHandlerAdapter
  */
