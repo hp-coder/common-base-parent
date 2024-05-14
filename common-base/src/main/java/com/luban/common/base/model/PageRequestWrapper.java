@@ -5,7 +5,9 @@ import com.luban.common.base.annotation.Trim;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 
@@ -13,12 +15,18 @@ import java.util.List;
  * @author hp
  */
 @Data
+@Validated
 public class PageRequestWrapper<T extends Request> {
 
+    @Min(value = 1, message = "the page index of the page to be returned, must be greater than 0.")
     private Integer page = 1;
+
+    @Min(value = 1, message = "the size of the page to be returned, must be greater than 0.")
     private Integer size = 10;
+
     @Trim
     private T queryParams;
+
     private List<OrderColumn> sorts;
 
     public void setPage(Integer page) {
