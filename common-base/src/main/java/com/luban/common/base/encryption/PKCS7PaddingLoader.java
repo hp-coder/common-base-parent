@@ -2,14 +2,14 @@ package com.luban.common.base.encryption;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.security.Security;
 
 /**
  * @author hp
  */
-@Component
+@Configuration
 @ConditionalOnClass(BouncyCastleProvider.class)
 public class PKCS7PaddingLoader implements IEncryptionPaddingLoader {
 

@@ -1,1 +1,2 @@
-  com.luban.common.base.utils.SpELHelper
+com.luban.common.base.utils.SpELHelper
+com.luban.common.base.encryption.PKCS7PaddingLoader
