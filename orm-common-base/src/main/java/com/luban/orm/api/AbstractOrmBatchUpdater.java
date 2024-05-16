@@ -2,6 +2,8 @@ package com.luban.orm.api;
 
 
 import cn.hutool.core.collection.CollUtil;
+import com.luban.common.base.enums.CodeEnum;
+import com.luban.common.base.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -20,6 +22,8 @@ public abstract class AbstractOrmBatchUpdater<AGGREGATE_ROOT, REPOSITORY extends
 
     public AbstractOrmBatchUpdater(REPOSITORY repository) {
         super(repository);
+        this.onSuccessDefault = entity -> log.debug("{} batch is successfully updated", entity.getClass().getName());
+        this.onFailureDefault = e -> { throw new BusinessException(CodeEnum.UpdateError, e);};
     }
 
     @Override

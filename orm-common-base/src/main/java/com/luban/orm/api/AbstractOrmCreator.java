@@ -1,6 +1,8 @@
 package com.luban.orm.api;
 
 
+import com.luban.common.base.enums.CodeEnum;
+import com.luban.common.base.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -17,6 +19,8 @@ public abstract class AbstractOrmCreator<AGGREGATE_ROOT, REPOSITORY extends OrmR
 
     public AbstractOrmCreator(REPOSITORY repository) {
         super(repository);
+        this.onSuccessDefault = entity -> log.debug("{} is successfully saved", entity.getClass().getName());
+        this.onFailureDefault = e -> { throw new BusinessException(CodeEnum.SaveError, e);};
     }
 
     @Override

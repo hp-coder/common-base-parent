@@ -21,6 +21,8 @@ public abstract class AbstractOrmUpdater<AGGREGATE_ROOT, REPOSITORY extends OrmR
 
     public AbstractOrmUpdater(REPOSITORY repository) {
         super(repository);
+        this.onSuccessDefault = entity -> log.debug("{} is successfully updated", entity.getClass().getName());
+        this.onFailureDefault = e -> { throw new BusinessException(CodeEnum.UpdateError, e);};
     }
 
     @Override
