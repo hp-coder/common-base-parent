@@ -4,6 +4,7 @@ package com.luban.orm.api;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -20,15 +21,12 @@ public abstract class AbstractOrmCreator<AGGREGATE_ROOT, REPOSITORY extends OrmR
 
     @Override
     public Modifier<AGGREGATE_ROOT> aggregation(Supplier<AGGREGATE_ROOT> supplier) {
-        this.aggregation = supplier.get();
+        this.aggregateRoot = supplier.get();
         return this;
     }
 
     @Override
-    protected Supplier<AGGREGATE_ROOT> doExecute() {
-        return () -> {
-            this.repository.save(this.aggregation);
-            return this.aggregation;
-        };
+    protected Consumer<AGGREGATE_ROOT> doExecute() {
+        return this.repository::save;
     }
 }
