@@ -10,7 +10,7 @@ import java.util.List;
  * @author hp
  */
 @Getter
-public class ValidationException extends javax.validation.ValidationException {
+public class ValidationException extends jakarta.validation.ValidationException {
 
     @Serial
     private static final long serialVersionUID = 8312899875680936694L;

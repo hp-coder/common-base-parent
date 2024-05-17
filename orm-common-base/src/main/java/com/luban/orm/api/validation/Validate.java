@@ -5,10 +5,10 @@ import com.luban.orm.exception.ValidationException;
 import com.luban.orm.model.ValidateResult;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.groups.Default;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.groups.Default;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
