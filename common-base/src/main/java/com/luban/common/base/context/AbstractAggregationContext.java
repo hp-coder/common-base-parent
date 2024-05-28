@@ -9,7 +9,7 @@ import lombok.Setter;
  * @author hp
  */
 @Data
-public abstract class AbstractContext<AGG_ROOT, COMMAND> implements AggregationContext<AGG_ROOT, COMMAND> {
+public abstract class AbstractAggregationContext<AGG_ROOT, COMMAND> implements AggregationContext<AGG_ROOT, COMMAND> {
 
     @Getter
     @Setter(AccessLevel.NONE)
@@ -17,7 +17,7 @@ public abstract class AbstractContext<AGG_ROOT, COMMAND> implements AggregationC
 
     protected AGG_ROOT entity;
 
-    public AbstractContext(COMMAND command) {
+    public AbstractAggregationContext(COMMAND command) {
         this.command = command;
     }
 }

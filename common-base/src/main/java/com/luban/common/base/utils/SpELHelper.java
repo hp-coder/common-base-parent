@@ -112,15 +112,14 @@ public class SpELHelper implements ApplicationContextAware {
         }
 
         @Override
-        public void accept(T data, Collection<R> result) {
+        public void accept(T target, Collection<R> result) {
             if (isCollection) {
-                this.expression.setValue(data, result);
+                this.expression.setValue(target, result);
             } else {
-                int size = result.size();
-                if (size == 1) {
-                    this.expression.setValue(data, result.stream().findFirst().get());
+                if (result.size() == 1) {
+                    this.expression.setValue(target, result.stream().findFirst().get());
                 } else {
-                    log.error("write join result to {} error: Too many results, field is {}, data is {}", data, fieldName, result);
+                    log.error("write join result to {} error: Too many results, field is {}, data is {}", target, fieldName, result);
                 }
             }
         }

@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * @author hp
  */
-public class Aes implements IEncryption {
+public class Aes implements IEncryption, IDecryption {
 
     private final Cipher cipher;
 
@@ -43,5 +43,10 @@ public class Aes implements IEncryption {
         } catch (IllegalBlockSizeException | BadPaddingException e) {
             throw new EncryptFailedException("AES encryption failed.", e);
         }
+    }
+
+    @Override
+    public String decrypt(String encrypted) {
+        return null;
     }
 }

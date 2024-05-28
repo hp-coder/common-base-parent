@@ -1,9 +1,11 @@
 package com.luban.common.base.pipeline;
 
+import com.luban.common.base.context.Context;
+
 /**
  * @author hp
  */
-public interface PipelineContext {
+public interface PipelineContext extends Context {
 
     default PipelineFilterSelector getFilterSelector() {
         return new PipelineFilterSelector() {

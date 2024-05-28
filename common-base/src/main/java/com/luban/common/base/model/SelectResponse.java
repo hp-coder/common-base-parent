@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SelectResponse implements Response{
+public class SelectResponse implements Response {
 
-    private Object value;
-    private String label;
-    private boolean disabled;
+    protected Object value;
+    protected String label;
+    protected boolean disabled;
 
 }
