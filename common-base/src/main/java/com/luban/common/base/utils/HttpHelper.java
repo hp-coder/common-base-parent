@@ -28,11 +28,16 @@ public class HttpHelper {
                 .map(f -> {
                     try {
                         f.setAccessible(true);
-                        return f.getName() + "=" + URLEncoder.encode(String.valueOf(f.get(request)), StandardCharsets.UTF_8);
+                        final Object fieldValue = f.get(request);
+                        if (Objects.isNull(fieldValue)) {
+                            return null;
+                        }
+                        return f.getName() + "=" + URLEncoder.encode(String.valueOf(fieldValue), StandardCharsets.UTF_8);
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException("Creating query string failed.", e);
                     }
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.joining("&"));
     }
 
@@ -45,7 +50,11 @@ public class HttpHelper {
                 .forEach(f -> {
                     try {
                         f.setAccessible(true);
-                        map.add(f.getName(), Base64.getUrlEncoder().withoutPadding().encodeToString(String.valueOf(f.get(request)).getBytes()));
+                        final Object fieldValue = f.get(request);
+                        if (Objects.isNull(fieldValue)) {
+                            return;
+                        }
+                        map.add(f.getName(), Base64.getUrlEncoder().withoutPadding().encodeToString(String.valueOf(fieldValue).getBytes()));
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException("Creating MultiValueMap failed.", e);
                     }
