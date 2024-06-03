@@ -83,12 +83,26 @@ public class SpELHelper implements ApplicationContextAware {
 
     public interface StandardSpELGetter<T, R> extends Function<T, R> {
 
+        R apply(T t, @Nullable Visitor<EvaluationContext> visitor);
+
         static <T> StandardSpELGetter<T, T> identity() {
-            return t -> t;
+            return new StandardSpELGetter<>() {
+                @Override
+                public T apply(T t, @Nullable Visitor<EvaluationContext> visitor) {
+                    return t;
+                }
+
+                @Override
+                public T apply(T t) {
+                    return t;
+                }
+            };
         }
     }
 
     public interface StandardSpELSetter<T, R> extends BiConsumer<T, R> {
+
+        void accept(T target, R result, @Nullable Visitor<EvaluationContext> visitor);
     }
 
     public class StandardSpELGetterImpl<T, R> implements StandardSpELGetter<T, R> {
@@ -113,6 +127,7 @@ public class SpELHelper implements ApplicationContextAware {
         }
 
         @SuppressWarnings("unchecked")
+        @Override
         public R apply(T data, @Nullable Visitor<EvaluationContext> visitor) {
             Optional.ofNullable(visitor).ifPresent(v -> v.visit(evaluationContext));
             return (R) expression.getValue(evaluationContext, data);
@@ -141,6 +156,7 @@ public class SpELHelper implements ApplicationContextAware {
             this.evaluationContext = evaluationContext;
         }
 
+        @Override
         public void accept(T target, Collection<R> result, @Nullable Visitor<EvaluationContext> visitor) {
             Optional.ofNullable(visitor).ifPresent(i -> i.visit(this.evaluationContext));
             if (isCollection) {
