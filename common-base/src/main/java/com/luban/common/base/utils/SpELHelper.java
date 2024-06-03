@@ -2,6 +2,7 @@ package com.luban.common.base.utils;
 
 import cn.hutool.core.util.StrUtil;
 import com.luban.common.base.visitor.Visitor;
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -18,7 +19,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * 很多判断是Groovy语法
@@ -59,24 +60,46 @@ public class SpELHelper implements ApplicationContextAware {
     private final ExpressionParser expressionParser = new SpelExpressionParser();
     private final ParserContext parserContext = ParserContext.TEMPLATE_EXPRESSION;
 
-    public <T, R> StandardSpELGetter<T, R> newGetterInstance(String expression) {
-        return new StandardSpELGetter<>(expression, new StandardEvaluationContext());
-    }
-
-    public <T, R> StandardSpELSetter<T, R> newSetterInstance(Field field) {
-        return new StandardSpELSetter<>(field);
-    }
-
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
         this.beanResolver = new BeanFactoryResolver(applicationContext);
     }
 
-    public class StandardSpELGetter<T, R> implements BiFunction<T, Visitor<EvaluationContext>, R> {
+    public <T, R> StandardSpELGetter<T, R> newGetterInstance(String expression) {
+        return new StandardSpELGetterImpl<>(expression, new StandardEvaluationContext());
+    }
+
+    public <T, R> StandardSpELGetter<T, R> newGetterInstance(String expression, EvaluationContext evaluationContext) {
+        return new StandardSpELGetterImpl<>(expression, evaluationContext);
+    }
+
+    public <T, R> StandardSpELSetter<T, Collection<R>> newSetterInstance(Field field) {
+        return new StandardSpELSetterImpl<>(field);
+    }
+
+    public <T, R> StandardSpELSetter<T, Collection<R>> newSetterInstance(Field field, EvaluationContext evaluationContext) {
+        return new StandardSpELSetterImpl<>(field, evaluationContext);
+    }
+
+    public interface StandardSpELGetter<T, R> extends Function<T, R> {
+
+        static <T> StandardSpELGetter<T, T> identity() {
+            return t -> t;
+        }
+    }
+
+    public interface StandardSpELSetter<T, R> extends BiConsumer<T, R> {
+    }
+
+    public class StandardSpELGetterImpl<T, R> implements StandardSpELGetter<T, R> {
         private final Expression expression;
         private final EvaluationContext evaluationContext;
 
-        private StandardSpELGetter(String expression, EvaluationContext evaluationContext) {
+        private StandardSpELGetterImpl(String expression) {
+            this(expression, new StandardEvaluationContext());
+        }
+
+        private StandardSpELGetterImpl(String expression, EvaluationContext evaluationContext) {
             if (StrUtil.isNotEmpty(expression) && expression.startsWith(parserContext.getExpressionPrefix())) {
                 this.expression = expressionParser.parseExpression(expression, parserContext);
             } else {
@@ -85,43 +108,55 @@ public class SpELHelper implements ApplicationContextAware {
             this.evaluationContext = Objects.requireNonNull(evaluationContext);
             if (this.evaluationContext instanceof StandardEvaluationContext standardEvaluationContext) {
                 standardEvaluationContext.setBeanResolver(beanResolver);
+//                standardEvaluationContext.setTypeConverter(new StandardTypeConverter());
             }
         }
 
         @SuppressWarnings("unchecked")
-        @Override
-        public R apply(T data, Visitor<EvaluationContext> visitor) {
+        public R apply(T data, @Nullable Visitor<EvaluationContext> visitor) {
             Optional.ofNullable(visitor).ifPresent(v -> v.visit(evaluationContext));
             return (R) expression.getValue(evaluationContext, data);
         }
 
+        @Override
         public R apply(T data) {
             return apply(data, Visitor.defaultVisitor());
         }
     }
 
-    public class StandardSpELSetter<T, R> implements BiConsumer<T, Collection<R>> {
+    public class StandardSpELSetterImpl<T, R> implements StandardSpELSetter<T, Collection<R>> {
         private final String fieldName;
         private final boolean isCollection;
         private final Expression expression;
+        private final EvaluationContext evaluationContext;
 
-        private StandardSpELSetter(Field field) {
+        private StandardSpELSetterImpl(Field field) {
+            this(field, new StandardEvaluationContext());
+        }
+
+        private StandardSpELSetterImpl(Field field, EvaluationContext evaluationContext) {
             this.fieldName = Objects.requireNonNull(field).getName();
             this.expression = expressionParser.parseExpression(fieldName);
             this.isCollection = Collection.class.isAssignableFrom(Objects.requireNonNull(field).getType());
+            this.evaluationContext = evaluationContext;
         }
 
-        @Override
-        public void accept(T target, Collection<R> result) {
+        public void accept(T target, Collection<R> result, @Nullable Visitor<EvaluationContext> visitor) {
+            Optional.ofNullable(visitor).ifPresent(i -> i.visit(this.evaluationContext));
             if (isCollection) {
-                this.expression.setValue(target, result);
+                this.expression.setValue(evaluationContext, target, result);
             } else {
                 if (result.size() == 1) {
-                    this.expression.setValue(target, result.stream().findFirst().get());
+                    this.expression.setValue(evaluationContext, target, result.stream().findFirst().get());
                 } else {
                     log.error("write join result to {} error: Too many results, field is {}, data is {}", target, fieldName, result);
                 }
             }
+        }
+
+        @Override
+        public void accept(T target, Collection<R> result) {
+            accept(target, result, Visitor.defaultVisitor());
         }
     }
 }
