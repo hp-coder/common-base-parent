@@ -44,7 +44,7 @@ import java.util.function.Function;
  *   <li>防NPE操作符: {@code PlaceOfBirth?.City} 如果为NULL 防止出现NPE</li>
  *   <li>筛选集合元素: {@code 集合.?[筛选条件]} 如果是Map集合,Map.Entry为当前判断对象</li>
  *   <li>筛选第一个满足集合元素: {@code 集合.^[筛选条件]}</li>
- *   <li>筛选第一个满足集合元素: {@code 集合.$[筛选条件]}</li>
+ *   <li>筛选最后一个满足集合元素: {@code 集合.$[筛选条件]}</li>
  *   <li>集合映射,类似StreamAPI的map()再collect(): 使用语法 {@code 集合.![映射规则]}, Map集合类似上述说明</li>
  *   <li>表达式模版: 默认{@code #{} }, 指定解析模版内部的内容</li>
  * </ul>
