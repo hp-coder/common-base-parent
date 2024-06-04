@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.luban</groupId>
+        <groupId>com.hp</groupId>
         <artifactId>common-base-parent</artifactId>
         <version>1.0.0-sp3.2-SNAPSHOT</version>
     </parent>
@@ -12,7 +12,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.luban</groupId>
+            <groupId>com.hp</groupId>
             <artifactId>common-base</artifactId>
         </dependency>
         <dependency>
