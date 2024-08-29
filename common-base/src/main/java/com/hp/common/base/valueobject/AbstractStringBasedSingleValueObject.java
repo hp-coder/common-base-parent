@@ -8,10 +8,14 @@ import com.hp.common.base.exception.NullValueObjectException;
  */
 public abstract class AbstractStringBasedSingleValueObject extends AbstractSingleValueObject<String> {
     protected AbstractStringBasedSingleValueObject(String value) throws NullValueObjectException {
-        super(value);
-        if (StrUtil.isEmpty(value)) {
+        super(StrUtil.trim(value, 0));
+        postConstruct();
+    }
+
+    private void postConstruct() throws NullValueObjectException {
+        if (StrUtil.isEmpty(this.value)) {
             throw new NullValueObjectException();
         }
-        validate(value);
+        validate(this.value);
     }
 }

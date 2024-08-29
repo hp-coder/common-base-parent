@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 /**
  * @author hp
- * @date 2022/10/18
  */
 public interface Validate extends OrmOperation {
 

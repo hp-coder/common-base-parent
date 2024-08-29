@@ -26,6 +26,6 @@ public final class EmailAddress extends AbstractStringBasedSingleValueObject {
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.EMAIL_PATTERN.asPredicate().test(value), "电子邮箱格式错误");
+        Preconditions.checkArgument(Patterns.EMAIL_PATTERN.asPredicate().test(value), "%s, 电子邮箱格式错误".formatted(value));
     }
 }

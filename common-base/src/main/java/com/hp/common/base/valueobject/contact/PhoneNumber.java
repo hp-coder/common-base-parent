@@ -36,6 +36,6 @@ public final class PhoneNumber extends AbstractStringBasedSingleValueObject {
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.PHONE_PATTERN.asPredicate().test(value), "手机号码格式错误");
+        Preconditions.checkArgument(Patterns.PHONE_PATTERN.asPredicate().test(value), "%s, 手机号码格式错误".formatted(value));
     }
 }

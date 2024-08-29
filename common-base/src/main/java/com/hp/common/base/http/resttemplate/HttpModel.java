@@ -41,8 +41,8 @@ public class HttpModel {
         });
     }
 
-    public <T, E> RequestEntity<E> createHttpEntity(T data, HttpModelCustomizer<T, E> visitor) {
-        return visitor.customize(data, this);
+    public <T, E> RequestEntity<E> createHttpEntity(T data, HttpModelCustomizer<T, E> customizer) {
+        return customizer.customize(data, this);
     }
 }
 

@@ -26,6 +26,6 @@ public final class IdNumber extends AbstractStringBasedSingleValueObject {
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.ID_NUMBER_PATTER.asPredicate().test(value),"身份证格式错误");
+        Preconditions.checkArgument(Patterns.ID_NUMBER_PATTER.asPredicate().test(value),"%s, 身份证格式错误".formatted(value));
     }
 }

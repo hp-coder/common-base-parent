@@ -6,6 +6,7 @@ import java.lang.annotation.*;
 /**
  * @author HP 2023/2/13
  */
+@Deprecated(forRemoval = true)
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

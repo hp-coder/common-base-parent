@@ -1,2 +1,1 @@
-com.hp.common.base.utils.SpELHelper
-com.hp.common.base.encryption.PKCS7PaddingLoader
+com.hp.common.base.CommonBaseAutoConfiguration

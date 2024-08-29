@@ -26,6 +26,6 @@ public final class Qq extends AbstractStringBasedSingleValueObject {
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.QQ_PATTERN.asPredicate().test(value), "QQ号码格式错误");
+        Preconditions.checkArgument(Patterns.QQ_PATTERN.asPredicate().test(value), "%s, QQ号码格式错误".formatted(value));
     }
 }

@@ -26,7 +26,7 @@ public final class Ip extends AbstractStringBasedSingleValueObject {
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.IP_PATTERN.asPredicate().test(value), "ip地址格式错误");
+        Preconditions.checkArgument(Patterns.IP_PATTERN.asPredicate().test(value), "%s, IP地址格式错误".formatted(value));
     }
 
 }

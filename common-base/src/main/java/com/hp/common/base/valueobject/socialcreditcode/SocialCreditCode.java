@@ -16,16 +16,16 @@ public final class SocialCreditCode extends AbstractStringBasedSingleValueObject
     }
 
     @JsonCreator
-    public static SocialCreditCode of(String value){
+    public static SocialCreditCode of(String value) {
         try {
             return new SocialCreditCode(value);
-        }catch (NullValueObjectException ignore){
+        } catch (NullValueObjectException ignore) {
             return null;
         }
     }
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.CREDIT_CODE_PATTERN.asPredicate().test(value), "统一社会信用代码格式错误");
+        Preconditions.checkArgument(Patterns.CREDIT_CODE_PATTERN.asPredicate().test(value), "%s, 统一社会信用代码格式错误".formatted(value));
     }
 }

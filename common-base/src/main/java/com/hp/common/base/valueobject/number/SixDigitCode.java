@@ -16,16 +16,16 @@ public final class SixDigitCode extends AbstractStringBasedSingleValueObject {
     }
 
     @JsonCreator
-    public static SixDigitCode of(String value){
+    public static SixDigitCode of(String value) {
         try {
             return new SixDigitCode(value);
-        }catch (NullValueObjectException ignore){
+        } catch (NullValueObjectException ignore) {
             return null;
         }
     }
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.SIX_DIGIT_CODE_PATTERN.asPredicate().test(value), "验证码格式错误");
+        Preconditions.checkArgument(Patterns.SIX_DIGIT_CODE_PATTERN.asPredicate().test(value), "%s, 验证码格式错误".formatted(value));
     }
 }

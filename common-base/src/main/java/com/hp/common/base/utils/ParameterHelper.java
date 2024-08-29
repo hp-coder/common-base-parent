@@ -16,24 +16,7 @@ import java.util.function.Predicate;
  * @author hp 2023/4/13
  */
 
-public interface ParamUtils {
-
-    final class Likes {
-        private Likes() {
-        }
-
-        public static String likeRight(String value) {
-            return value + "%";
-        }
-
-        public static String likeLeft(String value) {
-            return "%" + value;
-        }
-
-        public static String likeAll(String value) {
-            return "%" + value + "%";
-        }
-    }
+public interface ParameterHelper {
 
     final class Strings {
         private static final Strings EMPTY = new Strings(null);

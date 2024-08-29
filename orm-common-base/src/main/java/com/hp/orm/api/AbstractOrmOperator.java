@@ -25,7 +25,7 @@ public abstract class AbstractOrmOperator<AGGREGATE_ROOT, REPOSITORY
     protected List<Consumer<AGGREGATE_ROOT>> onSuccessConsumers = Lists.newArrayList();
     protected List<Consumer<? super Throwable>> onFailureConsumers = Lists.newArrayList();
     protected Consumer<AGGREGATE_ROOT> onSuccessDefault = entity -> log.debug("{} is successfully Saved", entity.getClass().getName());
-    protected Consumer<? super Throwable> onFailureDefault = e -> {
+    protected Consumer<? super Throwable> onFailureDefault = (e) -> {
         throw new BusinessException(CodeEnum.SaveError, e);
     };
 
@@ -60,8 +60,12 @@ public abstract class AbstractOrmOperator<AGGREGATE_ROOT, REPOSITORY
                         })
                         .onSuccess(root -> getOnSuccessConsumers().forEach(consumer -> consumer.accept(root)))
                         .onFailure(throwable -> getOnFailureConsumers().forEach(consumer -> consumer.accept(throwable)))
+                        .andFinally(this::doFinally)
                         .getOrNull()
         );
+    }
+
+    protected void doFinally() {
     }
 
     protected List<Consumer<AGGREGATE_ROOT>> getOnSuccessConsumers() {

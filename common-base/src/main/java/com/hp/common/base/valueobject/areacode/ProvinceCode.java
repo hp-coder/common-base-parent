@@ -26,6 +26,6 @@ public final class ProvinceCode extends AreaCode {
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.PROVINCE_CODE_PATTER.asPredicate().test(value), "省级地区编码格式错误");
+        Preconditions.checkArgument(Patterns.PROVINCE_CODE_PATTER.asPredicate().test(value), "%s, 省级地区编码格式错误".formatted(value));
     }
 }

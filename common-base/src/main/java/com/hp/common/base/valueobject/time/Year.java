@@ -26,6 +26,6 @@ public final class Year extends AbstractStringBasedSingleValueObject {
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.YEAR_PATTERN.asPredicate().test(value), "年份格式错误");
+        Preconditions.checkArgument(Patterns.YEAR_PATTERN.asPredicate().test(value), "%s, 年份格式错误".formatted(value));
     }
 }

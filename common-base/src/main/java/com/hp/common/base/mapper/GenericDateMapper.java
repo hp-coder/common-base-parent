@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 
-public class DateMapper {
+public class GenericDateMapper {
     public Long asLong(Instant date) {
         return Optional.ofNullable(date).map(Instant::toEpochMilli).orElse(null);
     }

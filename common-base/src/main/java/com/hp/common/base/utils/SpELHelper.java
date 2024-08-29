@@ -73,6 +73,10 @@ public class SpELHelper implements ApplicationContextAware {
         return new StandardSpELGetterImpl<>(expression, evaluationContext);
     }
 
+    public <T, R> StandardSpELGetter<T, R> newGetterInstance(String expression, EvaluationContext evaluationContext, ParserContext parserContext) {
+        return new StandardSpELGetterImpl<>(expression, evaluationContext, parserContext);
+    }
+
     public <T, R> StandardSpELSetter<T, Collection<R>> newSetterInstance(Field field) {
         return new StandardSpELSetterImpl<>(field);
     }
@@ -114,10 +118,18 @@ public class SpELHelper implements ApplicationContextAware {
         }
 
         private StandardSpELGetterImpl(String expression, EvaluationContext evaluationContext) {
-            if (StrUtil.isNotEmpty(expression) && expression.startsWith(parserContext.getExpressionPrefix())) {
-                this.expression = expressionParser.parseExpression(expression, parserContext);
+            this(expression, evaluationContext, null);
+        }
+
+        private StandardSpELGetterImpl(String expression, EvaluationContext evaluationContext, ParserContext additionalParseContext) {
+            if (StrUtil.isNotEmpty(expression) && Objects.nonNull(additionalParseContext)) {
+                this.expression = expressionParser.parseExpression(expression, additionalParseContext);
             } else {
-                this.expression = expressionParser.parseExpression(expression);
+                if (expression.startsWith(parserContext.getExpressionPrefix())) {
+                    this.expression = expressionParser.parseExpression(expression, parserContext);
+                } else {
+                    this.expression = expressionParser.parseExpression(expression);
+                }
             }
             this.evaluationContext = Objects.requireNonNull(evaluationContext);
             if (this.evaluationContext instanceof StandardEvaluationContext standardEvaluationContext) {

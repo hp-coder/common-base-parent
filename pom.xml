@@ -14,6 +14,9 @@
     <modules>
         <module>common-base</module>
         <module>orm-common-base</module>
+        <module>finance-common-base</module>
+        <module>open-api-common-base</module>
+        <module>sdk-common-base</module>
     </modules>
 
     <dependencyManagement>

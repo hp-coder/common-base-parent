@@ -28,6 +28,6 @@ public class AreaCode extends AbstractStringBasedSingleValueObject {
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.AREA_CODE_PATTERN.asPredicate().test(value), "地区编码格式错误");
+        Preconditions.checkArgument(Patterns.AREA_CODE_PATTERN.asPredicate().test(value), "%s, 地区编码格式错误".formatted(value));
     }
 }

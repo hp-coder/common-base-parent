@@ -20,7 +20,9 @@ public abstract class AbstractOrmCreator<AGGREGATE_ROOT, REPOSITORY extends OrmR
     public AbstractOrmCreator(REPOSITORY repository) {
         super(repository);
         this.onSuccessDefault = entity -> log.debug("{} is successfully saved", entity.getClass().getName());
-        this.onFailureDefault = e -> { throw new BusinessException(CodeEnum.SaveError, e);};
+        this.onFailureDefault = e -> {
+            throw new BusinessException(CodeEnum.SaveError, e);
+        };
     }
 
     @Override

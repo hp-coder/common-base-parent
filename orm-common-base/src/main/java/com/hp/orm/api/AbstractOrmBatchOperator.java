@@ -57,7 +57,12 @@ public abstract class AbstractOrmBatchOperator<AGGREGATE_ROOT, REPOSITORY extend
                 })
                 .onSuccess(roots -> getOnSuccessConsumers().forEach(consumer -> consumer.accept(roots)))
                 .onFailure(throwable -> getOnFailureConsumers().forEach(consumer -> consumer.accept(throwable)))
+                .andFinally(this::doFinally)
                 .getOrNull();
+    }
+
+    protected void doFinally() {
+
     }
 
     protected List<Consumer<Collection<AGGREGATE_ROOT>>> getOnSuccessConsumers() {

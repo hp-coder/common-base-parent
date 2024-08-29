@@ -2,13 +2,15 @@ package com.hp.common.base.model;
 
 import com.google.common.base.Preconditions;
 import com.hp.common.base.annotation.Trim;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.constraints.Min;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 
 /**
@@ -16,7 +18,7 @@ import java.util.List;
  */
 @Data
 @Validated
-public class PageRequestWrapper<T extends Request> {
+public class PageRequestWrapper<T> {
 
     @Min(value = 1, message = "the page index of the page to be returned, must be greater than 0.")
     private Integer page = 1;
@@ -37,6 +39,10 @@ public class PageRequestWrapper<T extends Request> {
     public void setSize(Integer size) {
         Preconditions.checkArgument(size != null && size > 0, "每页记录数异常");
         this.size = size;
+    }
+
+    public Integer getOffset() {
+        return Optional.ofNullable(this.page).map(p -> (p - 1) * Optional.ofNullable(this.size).orElse(0)).orElse(0);
     }
 
     @Data
@@ -70,5 +76,14 @@ public class PageRequestWrapper<T extends Request> {
         public boolean isDesc() {
             return !isAsc();
         }
+    }
+
+    public <R> PageRequestWrapper<R> convert(Function<T, R> converter) {
+        final PageRequestWrapper<R> wrapper = new PageRequestWrapper<>();
+        wrapper.setQueryParams(Optional.ofNullable(this.queryParams).map(converter).orElse(null));
+        wrapper.setPage(this.page);
+        wrapper.setSize(this.size);
+        wrapper.setSorts(this.sorts);
+        return wrapper;
     }
 }

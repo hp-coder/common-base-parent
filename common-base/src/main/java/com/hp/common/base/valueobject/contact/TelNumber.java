@@ -26,6 +26,6 @@ public final class TelNumber extends AbstractStringBasedSingleValueObject {
 
     @Override
     public void validate(String value) throws IllegalArgumentException {
-        Preconditions.checkArgument(Patterns.TEL_PATTERN.asPredicate().test(value), "电话号码格式错误");
+        Preconditions.checkArgument(Patterns.TEL_PATTERN.asPredicate().test(value), "%s, 电话号码格式错误".formatted(value));
     }
 }

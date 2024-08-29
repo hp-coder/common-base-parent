@@ -12,6 +12,7 @@ import java.security.KeyFactory;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 /**
@@ -54,9 +55,7 @@ public abstract class AbstractRSA implements IEncryption, IDecryption {
 
     private static RSAPrivateKey getRsaPrivateKeyByBase64(String base64s) throws Exception {
         try {
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decode(base64s));
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            return (RSAPrivateKey) keyFactory.generatePrivate(keySpec);
+            return (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Base64.decode(base64s)));
         } catch (InvalidKeySpecException e) {
             throw new EncryptFailedException("Creating RSA public key failed.", e);
         }
@@ -64,9 +63,7 @@ public abstract class AbstractRSA implements IEncryption, IDecryption {
 
     private static RSAPublicKey getRsaPublicKeyByBase64(String base64s) throws Exception {
         try {
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decode(base64s));
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            return (RSAPublicKey) keyFactory.generatePublic(keySpec);
+            return (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decode(base64s)));
         } catch (InvalidKeySpecException e) {
             throw new EncryptFailedException("Creating RSA public key failed.", e);
         }

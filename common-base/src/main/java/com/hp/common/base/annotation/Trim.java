@@ -21,7 +21,7 @@ import java.lang.annotation.*;
  * object field also have to be annotated with {@code @Trim}.
  *
  * <pre>
- * public MODIFIER method({@code @RequestBody @Trim }ParamClass){}
+ * public TYPE method({@code @RequestBody @Trim }ParamClass){}
  *
  * class ParamClass {
  *      {@code @Trim}
@@ -33,7 +33,7 @@ import java.lang.annotation.*;
  *
  * class NoneStringField {
  *      {@code @Trim}
- *      private String nonStringTrimmingField;
+ *      private String stringTrimmingField;
  * }
  * </pre>
  *
