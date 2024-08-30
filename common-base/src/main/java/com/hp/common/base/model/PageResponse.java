@@ -25,7 +25,7 @@ public class PageResponse<T> implements Response {
     protected PageResponse() {
     }
 
-    protected PageResponse(Collection<T> list, Long total, Integer page, Integer size) {
+    protected PageResponse(Collection<T> list, long total, int page, int size) {
         Preconditions.checkArgument(total >= 0, "total can not be less than zero.");
         Preconditions.checkArgument(page >= 0, "page can not be less than zero.");
         Preconditions.checkArgument(size >= 0, "size can not be less than zero.");
@@ -55,7 +55,7 @@ public class PageResponse<T> implements Response {
         return PageResponse.of(list, total, wrapper.getPage(), wrapper.getSize());
     }
 
-    public static <T> PageResponse<T> of(List<T> list, Long total, Integer page, Integer size) {
+    public static <T> PageResponse<T> of(List<T> list, long total, int page, int size) {
         return new PageResponse<>(list, total, page, size);
     }
 
