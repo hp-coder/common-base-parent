@@ -3,7 +3,7 @@ package com.hp.sdk;
 /**
  * @author hp
  */
-public interface LubanResponse<R extends LubanResponse<R>> {
+public interface ApiResponse<R extends ApiResponse<R>> {
 
     boolean succeed();
 }
