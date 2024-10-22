@@ -12,27 +12,22 @@ import java.util.Optional;
 @AllArgsConstructor
 public enum CodeEnum implements BaseEnum<CodeEnum, Integer> {
     /***/
-    Success(200, "操作成功"),
-    Fail(500, "操作失败"),
+    Success(10200, "操作成功"),
+    Fail(10500, "操作失败"),
 
-    NotFindError(500, "未查询到信息"),
-    SaveError(500, "保存信息失败"),
-    UpdateError(500, "更新信息失败"),
+    SaveError(10401, "保存信息失败"),
+    UpdateError(10402, "更新信息失败"),
+    ValidateError(10403, "数据检验失败"),
+    NotFindError(10404, "未查询到信息"),
+    StatusHasValid(10405, "状态已经被启用"),
+    StatusHasInvalid(10406, "状态已经被禁用"),
 
-    ValidateError(500, "数据检验失败"),
-
-    StatusHasValid(500, "状态已经被启用"),
-    StatusHasInvalid(500, "状态已经被禁用"),
-
-    SystemError(500, "系统异常"),
-
-    BusinessError(500, "业务异常"),
-    ParamSetIllegal(500, "参数设置非法"),
-
-    TransferStatusError(500, "当前状态不正确，请勿重复提交"),
-    NotGrant(500, "没有操作该功能的权限，请联系管理员"),
-
-    EnumConstantNotFound(500, "找不到枚举实例"),
+    SystemError(10501, "系统异常"),
+    BusinessError(10502, "业务异常"),
+    ParamSetIllegal(10503, "参数设置非法"),
+    TransferStatusError(10504, "当前状态不正确，请勿重复提交"),
+    NotGrant(10505, "没有操作该功能的权限，请联系管理员"),
+    EnumConstantNotFound(10506, "找不到枚举实例"),
 
     ;
     private final Integer code;
