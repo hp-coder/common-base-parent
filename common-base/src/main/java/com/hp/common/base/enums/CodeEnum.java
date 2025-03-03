@@ -28,6 +28,7 @@ public enum CodeEnum implements BaseEnum<CodeEnum, Integer> {
     TransferStatusError(10504, "当前状态不正确，请勿重复提交"),
     NotGrant(10505, "没有操作该功能的权限，请联系管理员"),
     EnumConstantNotFound(10506, "找不到枚举实例"),
+    FlowExceeded(10507, "流控限制"),
 
     ;
     private final Integer code;

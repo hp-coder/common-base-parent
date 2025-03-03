@@ -1,14 +1,12 @@
 package com.hp.common.base.model;
 
-import cn.hutool.http.HttpStatus;
 import com.hp.common.base.enums.BaseEnum;
+import com.hp.common.base.enums.CodeEnum;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author hp
@@ -34,11 +32,11 @@ public class Returns<T> {
     }
 
     public static <T> Returns<T> success() {
-        return Returns.of(DefaultCode.SUCCESS);
+        return Returns.of(CodeEnum.Success);
     }
 
     public static <T> Returns<T> success(T data) {
-        return Returns.of(DefaultCode.SUCCESS, data);
+        return Returns.of(CodeEnum.Success, data);
     }
 
     public static <T> Returns<T> success(BaseEnum<? extends Enum<?>, Integer> code) {
@@ -50,11 +48,11 @@ public class Returns<T> {
     }
 
     public static <T> Returns<T> fail() {
-        return Returns.of(DefaultCode.FAIL, null);
+        return Returns.of(CodeEnum.Fail, null);
     }
 
     public static <T> Returns<T> fail(T data) {
-        return Returns.of(DefaultCode.FAIL, data);
+        return Returns.of(CodeEnum.Fail, data);
     }
 
     public static <T> Returns<T> fail(BaseEnum<? extends Enum<?>, Integer> code) {
@@ -104,25 +102,6 @@ public class Returns<T> {
     }
 
     public boolean failed() {
-        return !Objects.equals(DefaultCode.SUCCESS.getCode(), getCode());
-    }
-
-
-    /**
-     * @author hp
-     */
-    @Getter
-    @AllArgsConstructor
-    private enum DefaultCode implements BaseEnum<DefaultCode, Integer> {
-        /***/
-        SUCCESS(HttpStatus.HTTP_OK, "操作成功"),
-        FAIL(HttpStatus.HTTP_INTERNAL_ERROR, "操作失败"),
-        ;
-        private final Integer code;
-        private final String name;
-
-        public static Optional<DefaultCode> of(Integer code) {
-            return Optional.ofNullable(BaseEnum.parseByCode(DefaultCode.class, code));
-        }
+        return !Objects.equals(CodeEnum.Success.getCode(), getCode());
     }
 }
